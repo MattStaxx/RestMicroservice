@@ -1,5 +1,6 @@
 package matt.restmicroservice.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/user{name}")
-	public ResponseEntity<AppUserDTO> getUserByName(@RequestParam String name) throws Exception {
+	public ResponseEntity<AppUserDTO> getUserByName(String name) throws Exception {
 		log.info("Controller....one...." + name);
 		AppUserDTO user = uServ.getUserByName(name);
 		AppUserDTO userResponse = modelMapper.map(user, AppUserDTO.class);
