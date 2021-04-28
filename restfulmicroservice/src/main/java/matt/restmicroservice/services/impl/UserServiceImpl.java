@@ -44,9 +44,16 @@ public class UserServiceImpl implements UserService {
 		return appUserDTO;
 	}
 	
+	private AppUser convertToAppUser(AppUserDTO appUserDTO) {
+		AppUser appUser = new AppUser();
+		appUser.setEmail(appUserDTO.getEmail());
+		appUser.setName(appUserDTO.getName());
+		log.info("Service...converter...." + appUserDTO);
+		return appUser;
+	}
+	
 	@Override
 	public AppUserDTO getUserByName(String name) throws AttributeNotFoundException {
-
 		AppUser convert = uRepo.findByName(name);
 		AppUserDTO user = convertToAppUserDTO(convert);
 		log.info("Service....name...." + name);
@@ -57,14 +64,11 @@ public class UserServiceImpl implements UserService {
 			return user;
 		}
 	}
-
-	@Override
-	public AppUserDTO addNewUser(AppUser user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
-//	public AppUserDTO addNewUser(AppUser newUser) {
-//		return uRepo.save(newUser);
-//	}
+	public AppUserDTO addNewUser(AppUserDTO user) {
+		AppUser newUser = convertToAppUser(user);
+		log.info("Service...add new...." + user);
+		uRepo.save(newUser);
+		return user;
+	}
 }
