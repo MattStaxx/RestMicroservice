@@ -1,4 +1,4 @@
-package matt.RestMicroservice.controllers;
+package matt.restmicroservice.controllers;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,14 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import matt.restmicroservice.entities.AppUser;
 import matt.restmicroservice.modals.AppUserDTO;
 import matt.restmicroservice.services.UserService;
 
 
 //@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/")
 public class UserController {
 
 	@Autowired
@@ -38,22 +37,27 @@ public class UserController {
 	
 	Logger log = LoggerFactory.getLogger(UserController.class);
 	
-	@GetMapping
-	public List<AppUserDTO> getAllUsers() {
-		return uServ.getAllUsers().stream().map(user -> modelMapper.map(user, AppUserDTO.class))
-				.collect(Collectors.toList());
+	@GetMapping(value="/users")
+	public ResponseEntity<AppUserDTO> getAllUsers() {
+		List<AppUserDTO> users = uServ.getAllUsers();
+		log.info("Controller.....all......");
+		AppUserDTO userResponse = modelMapper.map(users, AppUserDTO.class);
+		return ResponseEntity.ok().body(userResponse);
+//				uServ.getAllUsers().stream().map(user -> modelMapper.map(user, AppUserDTO.class))
+//				.collect(Collectors.toList());
 	}
 	
-	@GetMapping(value="/{id}")
-	public ResponseEntity<AppUserDTO> getUserById(@RequestParam Integer id) throws Exception {
-		AppUser user = uServ.getUserById(id);
-		AppUserDTO postResponse = modelMapper.map(user, AppUserDTO.class);
-		return ResponseEntity.ok().body(postResponse);
+	@GetMapping(value="/user{name}")
+	public ResponseEntity<AppUserDTO> getUserByName(@RequestParam String name) throws Exception {
+		log.info("Controller....one...." + name);
+		AppUserDTO user = uServ.getUserByName(name);
+		AppUserDTO userResponse = modelMapper.map(user, AppUserDTO.class);
+		return ResponseEntity.ok().body(userResponse);
 	}
 	
-	@PostMapping(value="/")
-	public AppUser addNewUser(AppUser newUser) {
-	
-		return uServ.addNewUser(newUser);		
-	}
+//	@PostMapping(value="/")
+//	public AppUserDTO addNewUser(AppUserDTO newUser) {
+//	
+//		return uServ.addNewUser(newUser);		
+//	}
 }

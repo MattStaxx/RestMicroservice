@@ -1,4 +1,4 @@
-package matt.RestMicroservice.modals;
+package matt.restmicroservice.modals;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AppUserDTO {
 
+	public AppUserDTO(Integer id, String email, String name) {
+		// TODO Auto-generated constructor stub
+	}
 	private Integer id;
 	private String name;
 	private String email;

@@ -1,4 +1,4 @@
-package matt.RestMicroservice.entities;
+package matt.restmicroservice.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
