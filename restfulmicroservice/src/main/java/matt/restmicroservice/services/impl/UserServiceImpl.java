@@ -1,5 +1,6 @@
 package matt.restmicroservice.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,21 +28,28 @@ public class UserServiceImpl implements UserService {
 		this.uRepo = uRepo;
 	}
 
-	@Override
+//	@Override
 	public List<AppUserDTO> getAllUsers() {
-		List<AppUser> u = (List<AppUser>) uRepo.findAll();
-		log.info("Service...entity....." + u);
-		List<AppUserDTO> users = u.stream().map(tmp -> 
-								new AppUserDTO(
-								tmp.getId(), tmp.getEmail(), tmp.getName()))
-								.collect(Collectors.toList());
-
-		log.info("Service...dto....." + users);
-		return users;
+		return ((List<AppUser>) uRepo
+				.findAll())
+				.stream()
+				.map(this::convertToAppUserDTO)
+				.collect(Collectors.toList());
+				
+	}
+	
+	private AppUserDTO convertToAppUserDTO(AppUser user) {
+		AppUserDTO appUserDTO = new AppUserDTO();
+		appUserDTO.setId(user.getId());
+		appUserDTO.setEmail(user.getEmail());
+		appUserDTO.setName(user.getName());
+		return appUserDTO;
 	}
 	
 	@Override
 	public AppUserDTO getUserByName(String name) throws AttributeNotFoundException {
+		
+		
 		AppUserDTO user = new AppUserDTO();
 		log.info("Service....name...." + name);
 		AppUser convert = uRepo.findByName(name);

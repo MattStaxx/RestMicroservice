@@ -38,11 +38,12 @@ public class UserController {
 	Logger log = LoggerFactory.getLogger(UserController.class);
 	
 	@GetMapping(value="/users")
-	public ResponseEntity<AppUserDTO> getAllUsers() {
+	public List<AppUserDTO> getAllUsers() {
 		List<AppUserDTO> users = uServ.getAllUsers();
 		log.info("Controller.....all......");
-		AppUserDTO userResponse = modelMapper.map(users, AppUserDTO.class);
-		return ResponseEntity.ok().body(userResponse);
+//		AppUserDTO userResponse = modelMapper.map(users, AppUserDTO.class);
+//		return ResponseEntity.ok().body(userResponse);
+		return users;
 //				uServ.getAllUsers().stream().map(user -> modelMapper.map(user, AppUserDTO.class))
 //				.collect(Collectors.toList());
 	}
